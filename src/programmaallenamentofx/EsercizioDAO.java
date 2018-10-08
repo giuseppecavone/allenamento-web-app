@@ -25,6 +25,7 @@ public class EsercizioDAO {
     public List<Fondamentale> leggiFileFondamentali(String nomeFile) throws FileNotFoundException, IOException {
 
         List<Fondamentale> listFondamentali = new ArrayList();
+
         String nome;
         double peso;
         byte serieTotali;
@@ -55,6 +56,8 @@ public class EsercizioDAO {
             esercizio.setMinIncremento(minIncremento);
             esercizio.setNome(nome);
             esercizio.setTipo(tipo);
+
+            Fondamentale copiaEsercizio = new Fondamentale(esercizio);
 
             listFondamentali.add(esercizio);
 
@@ -191,14 +194,13 @@ public class EsercizioDAO {
         switch (Sessione.getTipoSessione()) {
 
             case 1:
-                  
+
                 return new SessionePull(data, pull.stream()
                         .filter(p -> !p.getNome().equals("Iperextension"))
                         .collect(Collectors.toList()));
-              
+
             case 2:
-          
-             
+
                 return new SessionePush(data, push);
 
             case 3:
@@ -217,28 +219,40 @@ public class EsercizioDAO {
 
         eserciziPull.addAll(eserciziMisc);
         eserciziLegs.addAll(eserciziMisc);
+
         LocalDate dataInc;
 
         dataInc = dataInizio.plusWeeks(1);
         List<Sessione> sessione = new ArrayList();
+        List<Esercizio> accessori = esercizi.stream()
+                .filter(e -> e instanceof Accessorio)
+                .collect(Collectors.toList());
 
         for (LocalDate date = dataInizio; date.isBefore(dataFine.plusDays(1)); date = date.plusDays(1)) {
 //            eserciziPush.forEach(s -> System.out.println(s.getNome()));
 //            System.out.println("Size: "+eserciziPush.size());
             if (dataInc.equals(date)) {
-                aggiornaProgressione(eserciziMisc);
-                aggiornaProgressione(eserciziPush);
-                aggiornaProgressione(eserciziPull);
-                aggiornaProgressione(eserciziLegs);
+                for (Esercizio e : esercizi) {
+                    System.out.println(e.getNome());
+                    for (Serie serie : e.getSerie()) {
+                        System.out.println(serie.getPeso() + " " + serie.getReps());
+
+                    }
+                }
+
+                aggiornaProgressione(accessori);
+//                aggiornaProgressione(eserciziPush);
+//                aggiornaProgressione(eserciziPull);
+//                aggiornaProgressione(eserciziLegs);
                 dataInc = dataInc.plusWeeks(1);
             }
 
             if (date.getDayOfWeek().equals(DayOfWeek.THURSDAY)
                     || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-
+                continue;
             }
 
-            sessione.add(creaSessione(date, eserciziPull, new ArrayList(eserciziPush), eserciziLegs));
+            sessione.add(creaSessione(date, eserciziPull, eserciziPush, eserciziLegs));
 
         }
 
@@ -246,10 +260,26 @@ public class EsercizioDAO {
 
     }
 
+    public static List<Esercizio> copiaEsercizi(List<Esercizio> esercizi) {
+
+        List<Esercizio> eserciziCopy = new ArrayList();
+
+        esercizi.forEach(e -> {
+            if (e instanceof Fondamentale) {
+                eserciziCopy.add(new Fondamentale(e));
+            } else {
+                eserciziCopy.add(new Accessorio(e));
+            }
+        }
+        );
+
+        return eserciziCopy;
+    }
+
     public void aggiornaProgressione(List<Esercizio> esercizi) {
 
         Esercizio legPress = esercizi.stream()
-                .filter(customer -> "Leg press".equals(customer.getNome()))
+                .filter(customer -> "Leg press".equalsIgnoreCase(customer.getNome()))
                 .findAny()
                 .orElse(null);
 
@@ -280,6 +310,10 @@ public class EsercizioDAO {
                     break;
 
                 case "Chinups":
+                    System.out.println(legPress);
+                    System.out.println(legPress.getSerie());
+                    System.out.println(legPress.getSerie().get(1));
+                    System.out.println(legPress.getSerie().get(1).getReps());
                     if (legPress.getSerie().get(1).getReps().equals("12")) {
                         e.getSerie().forEach((s) -> {
                             s.setReps(Byte.toString(((byte) (Byte.parseByte(s.getReps()) + 1))));
@@ -311,6 +345,7 @@ public class EsercizioDAO {
 
         f.getSerie().forEach((s) -> {
             s.setPeso(s.getPeso() + f.getInc());
+            System.out.println(s.getPeso());
         });
     }
 

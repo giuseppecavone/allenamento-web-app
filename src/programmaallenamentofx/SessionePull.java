@@ -16,47 +16,45 @@ public class SessionePull extends Sessione {
 
     private static byte variante;
 
- 
-
     public SessionePull(LocalDate data, List<Esercizio> esercizi) {
         super(data, esercizi);
 
-
         switch (variante) {
             case 0:
-                sessione.removeIf(p -> 
-                        (p.getNome().equals("Barbell Row") ||  p.getNome().equals("Pullups") || p.getNome().equals("Chinups")             
-                        ));
+                sessione.removeIf(p
+                        -> (p.getNome().equalsIgnoreCase("Barbell Row") 
+                                || p.getNome().equalsIgnoreCase("Pullups") 
+                                || p.getNome().equalsIgnoreCase("Chinups")));
 
                 break;
             case 1:
-                sessione.removeIf(p -> (p.getNome().equals("Deadlift")
-                        || p.getNome().equals("Lat machine")
-                        || p.getNome().equals("Chinups")));
+                sessione.removeIf(p -> (p.getNome().equalsIgnoreCase("Deadlift")
+                        || p.getNome().equalsIgnoreCase("Lat machine")
+                        || p.getNome().equalsIgnoreCase("Chinups")));
 
                 break;
             case 2:
-                sessione.removeIf(p -> (p.getNome().equals("Barbell Row")
-                        || p.getNome().equals("Pullups")
-                        || p.getNome().equals("Lat machine")));
+                sessione.removeIf(p -> (p.getNome().equalsIgnoreCase("Barbell Row")
+                        || p.getNome().equalsIgnoreCase("Pullups")
+                        || p.getNome().equalsIgnoreCase("Lat machine")));
 
                 break;
             case 3:
-                sessione.removeIf(p -> (p.getNome().equals("Deadlift")
-                        || p.getNome().equals("Pullups")
-                        || p.getNome().equals("Chinups")));
+                sessione.removeIf(p -> (p.getNome().equalsIgnoreCase("Deadlift")
+                        || p.getNome().equalsIgnoreCase("Pullups")
+                        || p.getNome().equalsIgnoreCase("Chinups")));
 
                 break;
             case 4:
-                sessione.removeIf(p -> (p.getNome().equals("barbell")
-                        || p.getNome().equals("latmachine")
-                        || p.getNome().equals("chinups")));
+                sessione.removeIf(p -> (p.getNome().equalsIgnoreCase("Barbell Row")
+                        || p.getNome().equalsIgnoreCase("Lat machine")
+                        || p.getNome().equalsIgnoreCase("Chinups")));
 
                 break;
             case 5:
-                sessione.removeIf(p -> (p.getNome().equals("deadlift")
-                        || p.getNome().equals("pullups")
-                        || p.getNome().equals("latmachine")));
+                sessione.removeIf(p -> (p.getNome().equalsIgnoreCase("Deadlift")
+                        || p.getNome().equalsIgnoreCase("Pullups")
+                        || p.getNome().equalsIgnoreCase("Lat machine")));
 
                 variante = -1;
                 break;

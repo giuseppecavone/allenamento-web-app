@@ -13,10 +13,18 @@ public class Accessorio extends Esercizio {
 
     @Override
     void aggiornaProgressione() {
-   
+
     }
 
     private double percent;
+
+    public Accessorio() {
+    }
+
+    public Accessorio(Esercizio e) {
+        super(e);
+
+    }
 
     public double getPercent() {
         return percent;
@@ -25,6 +33,5 @@ public class Accessorio extends Esercizio {
     public void setPercent(double percent) {
         this.percent = percent;
     }
-    
 
 }

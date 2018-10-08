@@ -20,6 +20,15 @@ public class Fondamentale extends Esercizio {
                 });
         }
 
+    public Fondamentale(Esercizio e) {
+        super(e);
+       
+    }
+
+    public Fondamentale() {
+        
+    }
+
     public double getInc() {
         return inc;
     }

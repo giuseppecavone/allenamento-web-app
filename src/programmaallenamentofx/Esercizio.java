@@ -7,19 +7,33 @@ package programmaallenamentofx;
 
 import java.util.ArrayList;
 
-
 /**
  *
  * @author Giuseppe
  */
 public abstract class Esercizio {
-    
+
+    public Esercizio(ArrayList<Serie> serie, String nome, TipoEsercizio tipo, double minIncremento) {
+        this.serie = serie;
+        this.nome = nome;
+        this.tipo = tipo;
+        this.minIncremento = minIncremento;
+    }
+
+    public Esercizio() {
+    }
+
+   
+    public Esercizio(Esercizio e) {
+        this(e.getSerie(), e.getNome(), e.getTipo(), e.getMinIncremento());
+    }
+
     static int count;
     private ArrayList<Serie> serie;
     private String nome;
     private TipoEsercizio tipo;
     private double minIncremento;
-    
+
     abstract void aggiornaProgressione();
 
     public ArrayList<Serie> getSerie() {
@@ -53,8 +67,5 @@ public abstract class Esercizio {
     public void setMinIncremento(double minIncremento) {
         this.minIncremento = minIncremento;
     }
-    
-    
-    
-    
+
 }

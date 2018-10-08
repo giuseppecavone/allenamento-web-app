@@ -6,6 +6,7 @@
 package programmaallenamentofx;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,10 +15,10 @@ import java.util.List;
  */
 public class SessioneLegs extends Sessione {
 
+  
+
     public SessioneLegs(LocalDate data, List<Esercizio> esercizi) {
         super(data, esercizi);
-
-        
 
     }
 

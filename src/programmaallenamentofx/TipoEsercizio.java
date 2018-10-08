@@ -9,23 +9,8 @@ package programmaallenamentofx;
  *
  * @author Giuseppe
  */
-public class EsercizioPull extends Esercizio {
+public enum TipoEsercizio {
     
-    
-    
-    private static int variante;
-    
-    
-    public EsercizioPull() {
-    
-        
-    }
-    
-    @Override
-    void calcolaProgressione() {
-        
-        
-       
-    }
+    PULL,PUSH,LEGS,MISC
     
 }

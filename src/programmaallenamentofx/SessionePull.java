@@ -6,7 +6,7 @@
 package programmaallenamentofx;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,44 +16,49 @@ public class SessionePull extends Sessione {
 
     private static byte variante;
 
-    ArrayList<Esercizio> sessione;
+ 
 
-    public SessionePull(LocalDate data, ArrayList<Esercizio> esercizi) {
+    public SessionePull(LocalDate data, List<Esercizio> esercizi) {
         super(data, esercizi);
 
-        sessione = new ArrayList(esercizi);
-
-        Esercizio deadelift = sessione.remove(0);
-        Esercizio barbell = sessione.remove(1);
-        Esercizio latmachine = sessione.remove(2);
-        Esercizio pullups = sessione.remove(3);
-        Esercizio chinups = sessione.remove(4);
 
         switch (variante) {
             case 0:
-                sessione.add(deadelift);
-                sessione.add(latmachine);
+                sessione.removeIf(p -> 
+                        (p.getNome().equals("Barbell Row") ||  p.getNome().equals("Pullups") || p.getNome().equals("Chinups")             
+                        ));
+
                 break;
             case 1:
-                sessione.add(barbell);
-                sessione.add(pullups);
+                sessione.removeIf(p -> (p.getNome().equals("Deadlift")
+                        || p.getNome().equals("Lat machine")
+                        || p.getNome().equals("Chinups")));
+
                 break;
             case 2:
-                sessione.add(deadelift);
-                sessione.add(chinups);
+                sessione.removeIf(p -> (p.getNome().equals("Barbell Row")
+                        || p.getNome().equals("Pullups")
+                        || p.getNome().equals("Lat machine")));
+
                 break;
             case 3:
-                sessione.add(barbell);
-                sessione.add(latmachine);
+                sessione.removeIf(p -> (p.getNome().equals("Deadlift")
+                        || p.getNome().equals("Pullups")
+                        || p.getNome().equals("Chinups")));
+
                 break;
             case 4:
-                sessione.add(deadelift);
-                sessione.add(pullups);
+                sessione.removeIf(p -> (p.getNome().equals("barbell")
+                        || p.getNome().equals("latmachine")
+                        || p.getNome().equals("chinups")));
+
                 break;
             case 5:
-                sessione.add(barbell);
-                sessione.add(chinups);
-                variante=-1;
+                sessione.removeIf(p -> (p.getNome().equals("deadlift")
+                        || p.getNome().equals("pullups")
+                        || p.getNome().equals("latmachine")));
+
+                variante = -1;
                 break;
 
         }

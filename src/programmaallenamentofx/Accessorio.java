@@ -9,6 +9,22 @@ package programmaallenamentofx;
  *
  * @author Giuseppe
  */
-public interface Accessorio {
+public class Accessorio extends Esercizio {
+
+    @Override
+    void aggiornaProgressione() {
+   
+    }
+
+    private double percent;
+
+    public double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
+    }
     
+
 }

@@ -9,6 +9,23 @@ package programmaallenamentofx;
  *
  * @author Giuseppe
  */
-public interface Fondamentale {
+public class Fondamentale extends Esercizio {
+
+    private double inc;
+    @Override
+    void aggiornaProgressione() {
+        
+               getSerie().forEach((s) -> {
+                    s.setPeso(s.getPeso() + inc);
+                });
+        }
+
+    public double getInc() {
+        return inc;
+    }
+
+    public void setInc(double inc) {
+        this.inc = inc;
+    }
     
 }

@@ -6,7 +6,6 @@
 package programmaallenamentofx;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +14,7 @@ import java.util.List;
  */
 public abstract class Sessione {
 
-    List<Esercizio> sessione;
+   private List<Esercizio> sessione;
 
     private static byte tipoSessione = 1;
 
@@ -27,15 +26,15 @@ public abstract class Sessione {
         Sessione.tipoSessione = tipoSessione;
     }
 
-    LocalDate data;
+    private LocalDate data;
 
     public Sessione(LocalDate data, List<Esercizio> esercizi) {
 
         esercizi.forEach(e -> {
             if (e instanceof Fondamentale) {
                 EsercizioDAO.aggiornaProgressione((Fondamentale) e);
-                e.getSerie().forEach(
-                                     serie -> System.out.println("PESOPESOPESO !!!!!!!!! "+serie.getPeso()));
+//                e.getSerie().forEach(
+//                                     serie -> System.out.println("PESOPESOPESO !!!!!!!!! "+serie.getPeso()));
             }
 
         });
@@ -50,7 +49,8 @@ public abstract class Sessione {
 //    public Sessione(Sessione sessione) {
 //        this(sessione.getData(), new ArrayList(sessione.getSessione()));
 //    }
-    public List<Esercizio> getSessione() {
+   
+    public  List<Esercizio> getSessione() {
         return sessione;
     }
 

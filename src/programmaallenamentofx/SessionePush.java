@@ -17,6 +17,7 @@ public class SessionePush extends Sessione {
 
     private static byte variante;
 
+
     public SessionePush(LocalDate data, List<Esercizio> esercizi) {
         super(data, esercizi);
         //esercizi.forEach(e -> System.out.println(e.getNome()));
@@ -33,12 +34,12 @@ public class SessionePush extends Sessione {
         switch (variante) {
             case 0:
 
-                sessione.removeIf(p -> (p.getNome().equalsIgnoreCase("Bench pressA")
+                getSessione().removeIf(p -> (p.getNome().equalsIgnoreCase("Bench pressA")
                         || p.getNome().equalsIgnoreCase("Overhead pressF")));
 
                 break;
             case 1:
-                sessione.removeIf(p -> (p.getNome().equalsIgnoreCase("Bench pressF")
+                getSessione().removeIf(p -> (p.getNome().equalsIgnoreCase("Bench pressF")
                         || p.getNome().equalsIgnoreCase("Overhead pressA")));
 
                 variante = -1;
@@ -58,23 +59,23 @@ public class SessionePush extends Sessione {
         String[] prova = {"Overhead triceps extensions", "Triceps pushdowns"};
         int i;
 
-        lateralRaises = sessione.stream()
+        lateralRaises = getSessione().stream()
                 .filter(customer -> "Lateral raises".equalsIgnoreCase(customer.getNome()))
                 .findAny()
                 .orElse(null);
 
-        sessione.removeAll(Collections.singleton(lateralRaises));
+        getSessione().removeAll(Collections.singleton(lateralRaises));
 
         //sessione.forEach(e -> System.out.println(e.getNome()));
         for (String s : prova) {
-            sessione.add(i = sessione
-                    .indexOf(sessione
+            getSessione().add(i = getSessione()
+                    .indexOf(getSessione()                    
                             .stream()
                             .filter(esercizio -> s.equalsIgnoreCase(esercizio.getNome()))
                             .findAny()
                             .orElse(null)) + 1,
                     lateralRaises);
-            sessione.get(i-1).setNome(s.concat(" SS"));
+            getSessione().get(i-1).setNome(s.concat(" SS"));
 
         }
         //sessione.forEach(e -> System.out.println(e.getNome()));

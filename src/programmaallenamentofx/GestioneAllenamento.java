@@ -46,6 +46,9 @@ public class GestioneAllenamento {
         List<Sessione> sessioni = new ArrayList(allenamento
                 .generaSessioneSettimanale(dataInizio, dataFine, esercizi));
 
+//        nomeFile="C:\\Users\\Giuseppe\\Desktop\\StampaSessioni.txt";
+//        allenamento.stampaSessioni(nomeFile, sessioni);
+       
     }
 
 }

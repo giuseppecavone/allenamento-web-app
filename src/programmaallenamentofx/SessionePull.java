@@ -22,9 +22,15 @@ public class SessionePull extends Sessione {
         switch (variante) {
             case 0:
                 getSessione().removeIf(p
-                        -> (p.getNome().equalsIgnoreCase("Barbell Row") 
-                                || p.getNome().equalsIgnoreCase("Pullups") 
-                                || p.getNome().equalsIgnoreCase("Chinups")));
+                        -> (p.getNome().equalsIgnoreCase("Barbell Row")
+                        || p.getNome().equalsIgnoreCase("Pullups")
+                        || p.getNome().equalsIgnoreCase("Chinups")));
+
+                esercizi.forEach(e -> {
+                    if (e.getNome().equalsIgnoreCase("Deadlift")) {
+                        EsercizioDAO.aggiornaProgressione((Fondamentale) e);
+                    }
+                });
 
                 break;
             case 1:
@@ -32,29 +38,59 @@ public class SessionePull extends Sessione {
                         || p.getNome().equalsIgnoreCase("Lat machine")
                         || p.getNome().equalsIgnoreCase("Chinups")));
 
+                esercizi.forEach(e -> {
+                    if (e.getNome().equalsIgnoreCase("Barbell Row")) {
+                        EsercizioDAO.aggiornaProgressione((Fondamentale) e);
+                    }
+                });
+
                 break;
             case 2:
                 getSessione().removeIf(p -> (p.getNome().equalsIgnoreCase("Barbell Row")
                         || p.getNome().equalsIgnoreCase("Pullups")
                         || p.getNome().equalsIgnoreCase("Lat machine")));
+                
+                esercizi.forEach(e -> {
+                    if (e.getNome().equalsIgnoreCase("Deadlift")) {
+                        EsercizioDAO.aggiornaProgressione((Fondamentale) e);
+                    }
+                });
 
                 break;
             case 3:
                 getSessione().removeIf(p -> (p.getNome().equalsIgnoreCase("Deadlift")
                         || p.getNome().equalsIgnoreCase("Pullups")
                         || p.getNome().equalsIgnoreCase("Chinups")));
+                
+                esercizi.forEach(e -> {
+                    if (e.getNome().equalsIgnoreCase("Barbell Row")) {
+                        EsercizioDAO.aggiornaProgressione((Fondamentale) e);
+                    }
+                });
 
                 break;
             case 4:
                 getSessione().removeIf(p -> (p.getNome().equalsIgnoreCase("Barbell Row")
                         || p.getNome().equalsIgnoreCase("Lat machine")
                         || p.getNome().equalsIgnoreCase("Chinups")));
+                
+                esercizi.forEach(e -> {
+                    if (e.getNome().equalsIgnoreCase("Deadlift")) {
+                        EsercizioDAO.aggiornaProgressione((Fondamentale) e);
+                    }
+                });
 
                 break;
             case 5:
                 getSessione().removeIf(p -> (p.getNome().equalsIgnoreCase("Deadlift")
                         || p.getNome().equalsIgnoreCase("Pullups")
                         || p.getNome().equalsIgnoreCase("Lat machine")));
+                
+                esercizi.forEach(e -> {
+                    if (e.getNome().equalsIgnoreCase("Barbell Row")) {
+                        EsercizioDAO.aggiornaProgressione((Fondamentale) e);
+                    }
+                });
 
                 variante = -1;
                 break;

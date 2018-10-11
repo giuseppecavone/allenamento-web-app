@@ -6,8 +6,10 @@
 package programmaallenamentofx;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -237,10 +239,9 @@ public class EsercizioDAO {
 //            eserciziPush.forEach(s -> System.out.println(s.getNome()));
 //            System.out.println("Size: "+eserciziPush.size());
             if (dataInc.equals(date)) {
-             
 
                 aggiornaProgressione(accessori);
-                
+
 //                   for (Esercizio e : esercizi.stream()
 //                        .filter(e -> e instanceof Accessorio)
 //                        .collect(Collectors.toList())) {
@@ -261,17 +262,22 @@ public class EsercizioDAO {
                     || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
                 continue;
             }
-                    Sessione stampaProva;
-            sessione.add(stampaProva =creaSessione(date, eserciziPull, eserciziPush, eserciziLegs));
-           
+            Sessione stampaProva;
+            sessione.add(stampaProva = creaSessione(date, eserciziPull, eserciziPush, eserciziLegs));
+
             System.out.println(stampaProva.getData());
-           for(Esercizio e: stampaProva.getSessione()) {
-                System.out.println(e.getNome());
-           for (Serie s: e.getSerie() )
-                   System.out.println("Peso: " + s.getPeso()+ " Reps: "+ s.getReps());
-           
-           }
-            
+
+            stampaProva.getSessione().stream()
+                    .filter(e -> e.getNome().equalsIgnoreCase("Deadlift"))
+                    .map((e) -> {
+                        System.out.println(e.getNome());
+                        return e;
+                    }).forEachOrdered((e) -> {
+                e.getSerie().forEach((s) -> {
+                    System.out.println("Peso: " + s.getPeso() + " Reps: " + s.getReps());
+                });
+            });
+
         }
 
         return sessione;
@@ -296,7 +302,7 @@ public class EsercizioDAO {
 
     public void aggiornaProgressione(List<Esercizio> esercizi) {
 
-        Esercizio legPress =new Accessorio(esercizi.stream()
+        Esercizio legPress = new Accessorio(esercizi.stream()
                 .filter(customer -> "Leg press".equalsIgnoreCase(customer.getNome()))
                 .findAny()
                 .orElse(null));
@@ -319,10 +325,8 @@ public class EsercizioDAO {
                     break;
 
                 case "Pullups":
-                    
+
                     if (legPress.getSerie().get(1).getReps().equals("12")) {
-                        System.out.println("STO AGGIORNANDO PULLUPS");
-                        System.out.println("La Leg Press sta a " +legPress.getSerie().get(1).getReps()+" ripetizoni");
                         e.getSerie().forEach((s) -> {
                             s.setReps(Byte.toString(((byte) (Byte.parseByte(s.getReps()) + 1))));
 
@@ -360,9 +364,36 @@ public class EsercizioDAO {
 
     public static void aggiornaProgressione(Fondamentale f) {
 
-        f.getSerie().forEach((s) -> {
-            s.setPeso(s.getPeso() + f.getInc());
-        });
+        int i = 0;
+       double perc=0.3, peso = f.getSerie().get(f.getSerie().size()-1).getPeso()+f.getInc();
+        for (Serie se : f.getSerie()) {
+            if (i++ < 4) {
+                se.setPeso(peso * perc);
+                perc+=0.2;
+            } else {
+                se.setPeso(peso);
+            }
+       
+    }
+    }
+
+    public void stampaSessioni(String nomeFile, List<Sessione> sessioni) throws FileNotFoundException, IOException {
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile));
+        int i;
+
+        for (Sessione s : sessioni) {
+            i = sessioni.indexOf(s);
+            if (i >= sessioni.size() - 2 || i % 3 != 0) {
+                continue;
+            }
+            writer.write("Sessione n." + (i + 1) + " Data: " + s.getData().toString() + "\t\t"
+                    + "Sessione n." + (i + 2) + " Data: " + sessioni.get(i + 1).getData().toString() + "\t\t"
+                    + "Sessione n." + (i + 3) + " Data: " + sessioni.get(i + 2).getData().toString() + "\t\t\n");
+            writer.newLine();
+        }
+
+        writer.flush();
     }
 
 }

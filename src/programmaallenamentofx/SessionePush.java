@@ -17,18 +17,17 @@ public class SessionePush extends Sessione {
 
     private static byte variante;
 
-
     public SessionePush(LocalDate data, List<Esercizio> esercizi) {
         super(data, esercizi);
         //esercizi.forEach(e -> System.out.println(e.getNome()));
         //System.out.println("");
         //sessione.forEach(e -> System.out.println(e.getNome()));
-       // System.out.println("\n\n");
-       // esercizi.forEach(s -> System.out.println(s.getNome()));
+        // System.out.println("\n\n");
+        // esercizi.forEach(s -> System.out.println(s.getNome()));
         gestioneSuperSerie();
-      // System.out.println("\n\n");
-       // esercizi.forEach(s -> System.out.println(s.getNome()));
-       // System.out.println("\n\n");
+        // System.out.println("\n\n");
+        // esercizi.forEach(s -> System.out.println(s.getNome()));
+        // System.out.println("\n\n");
         //System.out.println(sessione);
 //        System.out.println(esercizi);
         switch (variante) {
@@ -37,10 +36,22 @@ public class SessionePush extends Sessione {
                 getSessione().removeIf(p -> (p.getNome().equalsIgnoreCase("Bench pressA")
                         || p.getNome().equalsIgnoreCase("Overhead pressF")));
 
+                esercizi.forEach(e -> {
+                    if (e.getNome().equalsIgnoreCase("Bench pressF")) {
+                        EsercizioDAO.aggiornaProgressione((Fondamentale) e);
+                    }
+                });
+
                 break;
             case 1:
                 getSessione().removeIf(p -> (p.getNome().equalsIgnoreCase("Bench pressF")
                         || p.getNome().equalsIgnoreCase("Overhead pressA")));
+
+                esercizi.forEach(e -> {
+                    if (e.getNome().equalsIgnoreCase("Overhead pressF")) {
+                        EsercizioDAO.aggiornaProgressione((Fondamentale) e);
+                    }
+                });
 
                 variante = -1;
                 break;
@@ -48,7 +59,7 @@ public class SessionePush extends Sessione {
         }
         variante++;
     }
-    
+
     public SessionePush(SessionePush s) {
         this(s.getData(), s.getSessione());
     }
@@ -69,13 +80,13 @@ public class SessionePush extends Sessione {
         //sessione.forEach(e -> System.out.println(e.getNome()));
         for (String s : prova) {
             getSessione().add(i = getSessione()
-                    .indexOf(getSessione()                    
+                    .indexOf(getSessione()
                             .stream()
                             .filter(esercizio -> s.equalsIgnoreCase(esercizio.getNome()))
                             .findAny()
                             .orElse(null)) + 1,
                     lateralRaises);
-            getSessione().get(i-1).setNome(s.concat(" SS"));
+            getSessione().get(i - 1).setNome(s.concat(" SS"));
 
         }
         //sessione.forEach(e -> System.out.println(e.getNome()));

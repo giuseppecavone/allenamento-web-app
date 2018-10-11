@@ -55,7 +55,7 @@ public class EsercizioDAO {
             incPeso = Double.parseDouble(st.nextToken());
             tipo = rilevaEsercizio(st);
             minIncremento = Double.parseDouble(st.nextToken());
-
+          
             Fondamentale esercizio = new Fondamentale();
 
             esercizio.setSerie(serie);
@@ -63,7 +63,9 @@ public class EsercizioDAO {
             esercizio.setMinIncremento(minIncremento);
             esercizio.setNome(nome);
             esercizio.setTipo(tipo);
-
+            
+           // aggiornaProgressione(esercizio);
+            
             Fondamentale copiaEsercizio = new Fondamentale(esercizio);
 
             listFondamentali.add(esercizio);
@@ -268,7 +270,7 @@ public class EsercizioDAO {
             System.out.println(stampaProva.getData());
 
             stampaProva.getSessione().stream()
-                    .filter(e -> e.getNome().equalsIgnoreCase("Deadlift"))
+                    .filter(e -> e.getNome().equalsIgnoreCase("leg curls"))
                     .map((e) -> {
                         System.out.println(e.getNome());
                         return e;
@@ -348,8 +350,9 @@ public class EsercizioDAO {
                     if (e instanceof Accessorio) {
                         if (e.getSerie().get(1).getReps().equals("12")) {
                             e.getSerie().forEach((s) -> {
+                                double value = s.getPeso() + s.getPeso() * ((Accessorio) e).getPercent();
                                 s.setReps("8");
-                                s.setPeso(s.getPeso() + s.getPeso() * ((Accessorio) e).getPercent());
+                                s.setPeso(Math.round(value / e.getMinIncremento()) * e.getMinIncremento());
                             });
                         } else {
                             e.getSerie().forEach((s) -> {
@@ -368,10 +371,10 @@ public class EsercizioDAO {
        double perc=0.3, peso = f.getSerie().get(f.getSerie().size()-1).getPeso()+f.getInc();
         for (Serie se : f.getSerie()) {
             if (i++ < 4) {
-                se.setPeso(peso * perc);
+                se.setPeso(Math.round((peso * perc) / f.getMinIncremento()) * f.getMinIncremento()); //Math.round(value / factor) * factor;
                 perc+=0.2;
             } else {
-                se.setPeso(peso);
+                se.setPeso(Math.round(peso / f.getMinIncremento()) * f.getMinIncremento());
             }
        
     }
